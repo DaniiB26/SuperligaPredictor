@@ -23,7 +23,8 @@ public class LeaderboardService {
     private static final Logger logger = LoggerFactory.getLogger(LeaderboardService.class);
 
     public Leaderboard createLeaderboard(String name, String ownerUsername, String privacy) {
-        logger.info("Attempting to create leaderboard with name: {}, ownerUsername: {}, privacy: {}", name, ownerUsername, privacy);
+        logger.info("Attempting to create leaderboard with name: {}, ownerUsername: {}, privacy: {}", name,
+                ownerUsername, privacy);
 
         Optional<User> ownerOptional = userRepository.findByUsername(ownerUsername);
         if (ownerOptional.isEmpty()) {
@@ -46,7 +47,7 @@ public class LeaderboardService {
         }
 
         leaderboard.setCode(UUID.randomUUID().toString());
-        leaderboard.setUsers(List.of(owner));  // Owner-ul este adăugat implicit
+        leaderboard.setUsers(List.of(owner));
 
         logger.info("Saving new leaderboard with name: {}, owner: {}, privacy: {}", name, owner.getUsername(), privacy);
 
@@ -70,7 +71,6 @@ public class LeaderboardService {
         leaderboard.getUsers().add(user);
         Leaderboard updatedLeaderboard = leaderboardRepository.save(leaderboard);
 
-        // Actualizăm leaderboard-urile
         updateLeaderboards();
 
         return updatedLeaderboard;
@@ -84,19 +84,15 @@ public class LeaderboardService {
     public void updateLeaderboards() {
         List<Leaderboard> leaderboards = leaderboardRepository.findAll();
         for (Leaderboard leaderboard : leaderboards) {
-            // Recalculăm punctajele pentru utilizatorii din leaderboard
             leaderboard.getUsers().forEach(user -> {
                 Optional<User> updatedUser = userRepository.findByUsername(user.getUsername());
                 updatedUser.ifPresent(value -> user.setSimplePoints(value.getSimplePoints()));
             });
 
-            // Sortăm utilizatorii din leaderboard după punctaje descrescătoare
             leaderboard.getUsers().sort((u1, u2) -> Integer.compare(u2.getSimplePoints(), u1.getSimplePoints()));
 
-            // Salvăm leaderboard-ul actualizat
             leaderboardRepository.save(leaderboard);
         }
     }
-
 
 }

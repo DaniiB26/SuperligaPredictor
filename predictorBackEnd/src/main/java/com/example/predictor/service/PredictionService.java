@@ -62,7 +62,8 @@ public class PredictionService {
     public void updateCompletedPredictions() {
         List<Predictie> predictions = predictionRepository.findAll();
         predictions.stream()
-                .filter(prediction -> isMatchCompleted(prediction.getMatch()) && !"completed".equalsIgnoreCase(prediction.getMatch().getStatus()))
+                .filter(prediction -> isMatchCompleted(prediction.getMatch())
+                        && !"completed".equalsIgnoreCase(prediction.getMatch().getStatus()))
                 .forEach(prediction -> {
                     prediction.getMatch().setStatus("completed");
                     calculatePoints(prediction);
@@ -73,7 +74,8 @@ public class PredictionService {
     @Transactional
     public void updateAllPredictionsWithMatches() {
         List<Predictie> allPredictions = predictionRepository.findAll();
-        allPredictions.forEach(prediction -> matchRepository.findById(prediction.getMatch().getId()).ifPresent(prediction::setMatch));
+        allPredictions.forEach(
+                prediction -> matchRepository.findById(prediction.getMatch().getId()).ifPresent(prediction::setMatch));
         predictionRepository.saveAll(allPredictions);
     }
 
@@ -83,28 +85,30 @@ public class PredictionService {
         Match match = prediction.getMatch();
 
         if (match.getHomeScore() == null || match.getAwayScore() == null) {
-            // Dacă scorul nu este setat, nu se poate calcula punctajul
             return points;
         }
 
         if (match.getHomeScore().equals(prediction.getPredictedHomeScore()) &&
                 match.getAwayScore().equals(prediction.getPredictedAwayScore())) {
-            points = 3; // Predicție exactă
-        } else if ((match.getHomeScore() > match.getAwayScore() && prediction.getPredictedHomeScore() > prediction.getPredictedAwayScore()) ||
-                (match.getHomeScore() < match.getAwayScore() && prediction.getPredictedHomeScore() < prediction.getPredictedAwayScore()) ||
-                (match.getHomeScore().equals(match.getAwayScore()) && prediction.getPredictedHomeScore().equals(prediction.getPredictedAwayScore()))) {
-            points = 1; // Predicție corectă a rezultatului
+            points = 3;
+        } else if ((match.getHomeScore() > match.getAwayScore()
+                && prediction.getPredictedHomeScore() > prediction.getPredictedAwayScore()) ||
+                (match.getHomeScore() < match.getAwayScore()
+                        && prediction.getPredictedHomeScore() < prediction.getPredictedAwayScore())
+                ||
+                (match.getHomeScore().equals(match.getAwayScore())
+                        && prediction.getPredictedHomeScore().equals(prediction.getPredictedAwayScore()))) {
+            points = 1;
         }
 
         prediction.setPoints(points);
-        prediction.setChecked(true); // Marchează predicția ca verificată
+        prediction.setChecked(true);
         predictionRepository.save(prediction);
 
-        // Actualizează punctele utilizatorului
-        int finalPoints = points; // Folosim o variabilă finală pentru a putea fi utilizată în lambda
+        int finalPoints = points;
 
         Optional<User> newPointsUser = userRepository.findByUsername(prediction.getUser());
-        if ( newPointsUser.isPresent()) {
+        if (newPointsUser.isPresent()) {
             Integer oldPoints = newPointsUser.get().getSimplePoints();
             newPointsUser.get().setSimplePoints(oldPoints + finalPoints);
             userRepository.save(newPointsUser.get());
@@ -137,7 +141,7 @@ public class PredictionService {
     public void recalculateAllUsersPoints() {
         List<User> users = userRepository.findAll();
         users.forEach(user -> {
-            user.setSimplePoints(0); // Reset points before recalculating
+            user.setSimplePoints(0);
             userRepository.save(user);
             List<Predictie> predictions = predictionRepository.findByUser(user.getUsername());
             int totalPoints = predictions.stream()

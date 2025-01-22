@@ -25,7 +25,6 @@ public class Match {
     private LocalDateTime matchDate;
     private String status;
 
-    // Transient fields for input
     @Transient
     private String homeTeamName;
     @Transient

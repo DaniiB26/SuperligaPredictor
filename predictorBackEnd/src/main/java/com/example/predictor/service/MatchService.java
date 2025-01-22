@@ -54,7 +54,7 @@ public class MatchService {
     public void updateMatchesAtStartup() {
         updateCompletedMatches();
         updateMatchesWithoutScores();
-        //predictionService.recalculateAllUsersPoints();
+        // predictionService.recalculateAllUsersPoints();
     }
 
     @Transactional
@@ -66,7 +66,7 @@ public class MatchService {
             if ("scheduled".equals(match.getStatus()) && match.getMatchDate().plusHours(2).isBefore(now)) {
                 match.setStatus("completed");
                 matchRepository.save(match);
-                //updatePredictionsForMatch(match);
+                // updatePredictionsForMatch(match);
                 System.out.println("Match with ID: " + match.getId() + " has been updated to completed.");
             }
         }
@@ -77,10 +77,12 @@ public class MatchService {
         List<Match> matches = matchRepository.findAll();
 
         for (Match match : matches) {
-            if ((match.getHomeScore() == null || match.getAwayScore() == null) && "completed".equals(match.getStatus())) {
-                System.out.println("Match between: " + match.getHome().getName() + " and " + match.getAway().getName() + " is completed but no score!");
+            if ((match.getHomeScore() == null || match.getAwayScore() == null)
+                    && "completed".equals(match.getStatus())) {
+                System.out.println("Match between: " + match.getHome().getName() + " and " + match.getAway().getName()
+                        + " is completed but no score!");
                 updateScoreFromPython(match);
-//                updatePredictionsForMatch(match);
+                // updatePredictionsForMatch(match);
             }
         }
     }
@@ -95,7 +97,7 @@ public class MatchService {
 
             String pythonPath = "python";
             String scriptPath = "ExtractMatches/main.py";
-            String stageNumber = match.getEtapa();  // Obține etapa din meci
+            String stageNumber = match.getEtapa();
 
             ProcessBuilder processBuilder = new ProcessBuilder(pythonPath, scriptPath, stageNumber);
             processBuilder.redirectErrorStream(true);
@@ -115,7 +117,9 @@ public class MatchService {
                 System.out.println("Matches data: " + output);
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                List<Map<String, String>> matchesData = objectMapper.readValue(output.toString(), new TypeReference<>() {});
+                List<Map<String, String>> matchesData = objectMapper.readValue(output.toString(),
+                        new TypeReference<>() {
+                        });
 
                 for (Map<String, String> matchData : matchesData) {
                     String jsonHomeTeam = normalizeTeamName(matchData.get("home_team"));
@@ -132,13 +136,16 @@ public class MatchService {
                             match.setAwayScore(Integer.parseInt(scores[1].trim()));
                             matchRepository.save(match);
                             updatePredictionsForMatch(match);
-                            System.out.println("Score updated for match: " + match.getHome().getName() + " vs " + match.getAway().getName() +
+                            System.out.println("Score updated for match: " + match.getHome().getName() + " vs "
+                                    + match.getAway().getName() +
                                     " -> " + scores[0].trim() + ":" + scores[1].trim());
                         } else {
-                            System.out.println("Score format not valid for match between " + jsonHomeTeam + " and " + jsonAwayTeam);
+                            System.out.println("Score format not valid for match between " + jsonHomeTeam + " and "
+                                    + jsonAwayTeam);
                         }
                     } else {
-                        System.out.println("Teams do not match: Database - " + match.getHome().getName() + " vs " + match.getAway().getName() +
+                        System.out.println("Teams do not match: Database - " + match.getHome().getName() + " vs "
+                                + match.getAway().getName() +
                                 ", Web - " + matchData.get("home_team") + " vs " + matchData.get("away_team"));
                     }
                 }
@@ -162,7 +169,6 @@ public class MatchService {
             prediction.setMatch(match);
             predictionRepository.save(prediction);
 
-            // Recalculează punctele pentru fiecare predicție folosind `PredictionService`
             predictionService.calculatePoints(prediction);
         }
     }

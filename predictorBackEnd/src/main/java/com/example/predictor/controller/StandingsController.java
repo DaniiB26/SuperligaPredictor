@@ -24,14 +24,12 @@ public class StandingsController {
 
     @GetMapping("/real")
     public List<TeamStandingDTO> getRealBasedStandings() {
-        // Obține clasamentul folosind numele echipelor ca cheie
         Map<String, Integer> standingsMap = standingsService.getRealBasedStandings();
 
-        // Transformă map-ul în listă de DTO-uri ordonată descrescător după puncte
         return standingsMap.entrySet().stream()
-                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // Sortează descrescător
-                                                                                            // după puncte
-                .map(entry -> new TeamStandingDTO(entry.getKey(), entry.getValue())) // Creează DTO-uri
+                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+
+                .map(entry -> new TeamStandingDTO(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
@@ -40,9 +38,9 @@ public class StandingsController {
         Map<String, Integer> predictionMap = standingsService.getPredictionBasedStandings(username);
 
         return predictionMap.entrySet().stream()
-                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // Sortează descrescător
-                                                                                            // după puncte
-                .map(entry -> new TeamStandingDTO(entry.getKey(), entry.getValue())) // Creează DTO-uri
+                .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+
+                .map(entry -> new TeamStandingDTO(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
