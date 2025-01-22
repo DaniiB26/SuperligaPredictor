@@ -38,29 +38,22 @@ The application is divided into two main parts:
 - Developed with **React** using the **Ionic Framework** for a responsive and modern user interface.
 
 ---
+
 ## Screenshots
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-  <div>
-    <img src="./images/login-page.png" alt="Login Page" width="150" />
-    <p style="text-align: center;">Login Page</p>
-  </div>
-  <div>
-    <img src="./images/home-page.png" alt="Home Page" width="150" />
-    <p style="text-align: center;">Home Page</p>
-  </div>
-  <div>
-    <img src="./images/results-page.png" alt="Match Results" width="150" />
-    <p style="text-align: center;">Match Results</p>
-  </div>
-  <div>
-    <img src="./images/predictions-page.png" alt="User Predictions" width="150" />
-    <p style="text-align: center;">User Predictions</p>
-  </div>
-  <div>
-    <img src="./images/leaderboards-page.png" alt="Leaderboard" width="150" />
-    <p style="text-align: center;">Leaderboard</p>
-  </div>
-</div>
+### Login Page
+<img src="./images/login-page.png" alt="Login Page" width="150" />
+
+### Home Page
+<img src="./images/home-page.png" alt="Home Page" width="150" />
+
+### Match Results Page
+<img src="./images/results-page.png" alt="Match Results" width="150" />
+
+### User Predictions Page
+<img src="./images/predictions-page.png" alt="User Predictions" width="150" />
+
+### Leaderboard
+<img src="./images/leaderboards-page.png" alt="Leaderboard" width="150" />
 
 ---
