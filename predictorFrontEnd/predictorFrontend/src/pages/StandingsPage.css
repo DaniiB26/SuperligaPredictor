@@ -1,0 +1,38 @@
+.standings-container {
+    padding: 20px;
+    background: #001f3f;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.standings-section {
+    margin-bottom: 30px;
+}
+
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #293042;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.standings-table th, .standings-table td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #4c5b70;
+    color: #ffffff;
+}
+
+.standings-table th {
+    background: #1c1f2a;
+    color: #00e5ff;
+    font-weight: bold;
+}
+
+.standings-table tr:hover {
+    background: #2e3a52;
+}

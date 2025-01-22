@@ -1,0 +1,149 @@
+.prediction-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  height: 150px;
+  max-width: 300px;
+  margin: auto;
+  position: relative;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+}
+
+.team-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.team-name {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #f0f0f0;
+}
+
+.match-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+  margin-top: 15px;
+}
+
+.user-prediction {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.score-box {
+  background-color: #ffffff;
+  color: #1e1e1e;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.result {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.correct-prediction {
+  color: #00ff00;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.incorrect-prediction {
+  color: #ff5252;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.prediction-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.prediction-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.large-input {
+  background-color: #ffffff;
+  color: #1e1e1e;
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+button {
+  width: 80%;
+  margin-bottom: 10px;
+  background-color: white;
+  color: #ff5252;
+  border: none;
+  padding: 8px 5px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #ff3333;
+}
+
+button:active {
+  background-color: #e60000;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #ffcc00;
+}
+
+.points-earned {
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 120px;
+  position: absolute;
+}
+
+.spacer {
+  width: 5px;
+}

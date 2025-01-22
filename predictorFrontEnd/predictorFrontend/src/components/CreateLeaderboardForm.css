@@ -1,0 +1,69 @@
+.create-leaderboard-form {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1c1f2a;
+  color: #ffffff;
+  border-radius: 15px;
+}
+
+.leaderboard-name-input {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #00e5ff;
+  background-color: #293042;
+  color: #ffffff;
+}
+
+.leaderboard-name-input::placeholder {
+  color: #6c7a89;
+}
+
+.privacy-options {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.privacy-options label {
+  font-size: 1em;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.create-button {
+  background: linear-gradient(135deg, #fa1a1a, #c40000);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+  background-color: #b30000;
+}
+
+.cancel-button {
+  background-color: #555555;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #444444;
+}

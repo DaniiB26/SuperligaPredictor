@@ -1,0 +1,261 @@
+.leaderboards-container {
+  background: linear-gradient(to bottom, #001f3f, #000000);
+  min-height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+  font-family: "Arial, sans-serif";
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 30px;
+  width: 110%;
+}
+
+.leaderboard-box {
+  position: relative;
+  background: #293042;
+  padding: 25px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.leaderboard-box:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.leaderboard-title {
+  text-align: center;
+  font-weight: bold;
+  color: #00e5ff;
+  margin-top: 0;
+  font-size: 1.5em;
+}
+
+.leaderboard-users {
+  margin-top: 20px;
+}
+
+.leaderboard-user {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #4c5b70;
+  color: #e0e0e0;
+  transition: color 0.3s ease;
+}
+
+.leaderboard-user:hover {
+  color: #ffffff;
+}
+
+.leaderboard-user:last-child {
+  border-bottom: none;
+}
+
+.action-buttons {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+}
+
+.create-button,
+.join-button {
+  background: linear-gradient(135deg, #fa1a1a, #c40000);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-button:hover,
+.join-button:hover {
+  background-color: #b30000;
+}
+
+.modal-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1c1f2a;
+  color: #ffffff;
+  border-radius: 15px;
+}
+
+.invite-code-input {
+  padding: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #00e5ff;
+  background-color: #1c1f2a;
+  color: #ffffff;
+}
+
+.invite-code-input::placeholder {
+  color: #6c7a89;
+}
+
+.modal-button {
+  background: linear-gradient(135deg, #fa1a1a, #c40000);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  width: 150px;
+}
+
+.modal-button:hover {
+  background-color: #b30000;
+}
+
+.cancel-button {
+  background-color: #555555;
+}
+
+.share-button {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  width: 0;
+}
+
+.share-button img {
+  width: 16px;
+  height: 16px;
+  filter: invert(100%);
+  transition: opacity 0.3s ease;
+}
+
+.share-button:hover img {
+  opacity: 0.8;
+}
+
+.share-button:focus,
+.share-button:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.close-modal-button {
+  position: relative;
+  top: 5px;
+  align-self: end;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1em;
+  cursor: pointer;
+  width: 30px;
+  border-radius: 100%;
+}
+
+.close-modal-button:hover {
+  opacity: 0.8;
+}
+
+.close-modal-button:focus,
+.close-modal-button:active {
+  outline: none;
+  box-shadow: none;
+  background: none;
+  color: inherit;
+}
+
+.invite-code-container {
+  margin-top: 20px;
+}
+
+.invite-code-label {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.invite-code-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #293042;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.invite-code {
+  font-size: 1.5em;
+  color: #00e5ff;
+}
+
+.copy-button {
+  background: linear-gradient(135deg, #fa1a1a, #c40000);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+  margin-top: 12px;
+}
+
+.copy-button:hover {
+  background-color: #b30000;
+}
+
+.copy-button:active {
+  transform: translateY(2px);
+}
+
+.hidden-textarea {
+  position: absolute;
+  left: -9999px;
+}
+
+@media (max-width: 768px) {
+  .leaderboard-box {
+    width: 90%;
+  }
+}
+
+.minimalist-modal {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+}

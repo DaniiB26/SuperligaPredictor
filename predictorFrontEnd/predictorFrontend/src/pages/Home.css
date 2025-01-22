@@ -1,0 +1,93 @@
+.home-page {
+}
+
+.home-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  background: linear-gradient(to bottom, #001f3f, #000000);
+  background-size: cover;
+  flex-direction: column;
+  height: 100%;
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.home-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(45deg, #ff4e50, #d4145a);
+  border-radius: 10px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  height: 130px;
+  cursor: pointer;
+  transition: transform 0.3s, background 0.3s;
+  border: none;
+  margin: 0 auto;
+}
+
+.home-button:hover {
+  background: linear-gradient(45deg, #ff6161, #d4145a);
+  transform: translateY(-2px);
+}
+
+.home-button:active {
+  background: linear-gradient(45deg, #d4145a, #ff4e50);
+  transform: translateY(0);
+}
+
+.button-icon {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 8px;
+}
+
+.spacer {
+  height: 120px;
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .home-button {
+    height: 100px;
+    font-size: 0.8em;
+    padding: 15px;
+    width: 200px;
+  }
+
+  .button-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-button {
+    height: 90px;
+    font-size: 0.75em;
+  }
+
+  .button-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
