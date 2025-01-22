@@ -13,7 +13,7 @@
 - **Home Page**: A hub for users to navigate the app.  
 - **Match Results**: Displays the results of completed matches.  
 - **User Predictions**: A dedicated page to track the user's predictions.  
-- **League Standings and Prediction Standings**: Shows the current standings of teams in the league. Ranks teams based on user predictions. 
+- **League Standings and Prediction Standings**: Shows the current standings of teams in the league. Ranks teams based on user predictions.  
 - **User Leaderboards**: Includes a public leaderboard and the ability for users to create private leaderboards to compete with friends.
 
 ---
@@ -28,9 +28,9 @@ The application is divided into two main parts:
 - **MongoDB** is used for database management.
 - A **Python script** scrapes match results from an external website to automatically calculate points and update leaderboards.
 - **Security**:
-  - **JWT-based Authentication**: The backend uses JSON Web Tokens (JWT) for secure and stateless authentication. 
+  - **JWT-based Authentication**: The backend uses JSON Web Tokens (JWT) for secure and stateless authentication.  
   - **Password Encryption**: User passwords are hashed using **BCryptPasswordEncoder** for enhanced security.  
-  - **Stateless Sessions**: Each request is validated independently using JWTs, eliminating the need for server-side session storage.
+  - **Stateless Sessions**: Each request is validated independently using JWTs, eliminating the need for server-side session storage.  
   - **Environment Variables**: Managed with a `.env` configuration loaded using the `DotenvConfig` class.
 
 ### Frontend
@@ -42,18 +42,18 @@ The application is divided into two main parts:
 ## Screenshots
 
 ### Login Page
-![Login Page](./images/login-page.png)
+<img src="./images/login-page.png" alt="Login Page" width="500" />
 
 ### Home Page
-![Home Page](./images/home-page.png)
+<img src="./images/home-page.png" alt="Home Page" width="500" />
 
 ### Match Results Page
-![Match Results](./images/results-page.png)
+<img src="./images/results-page.png" alt="Match Results" width="500" />
 
 ### User Predictions Page
-![User Predictions](./images/predictions-page.png)
+<img src="./images/predictions-page.png" alt="User Predictions" width="500" />
 
 ### Leaderboard
-![Leaderboard](./images/leaderboards-page.png)
+<img src="./images/leaderboards-page.png" alt="Leaderboard" width="500" />
 
 ---
