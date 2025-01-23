@@ -1,22 +1,37 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { getTeams } from '../api/teamApi.tsx';
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+import { getTeams } from "../api/teamApi";
+import { Team } from "../types";
 
-export const TeamContext = createContext({ teams: [] });
+interface TeamContextType {
+  teams: Team[];
+}
 
-export const TeamProvider = ({ children }) => {
-    const [teams, setTeams] = useState([]);
+export const TeamContext = createContext<TeamContextType>({
+  teams: [],
+});
 
-    useEffect(() => {
-        const fetchTeams = async () => {
-            const data = await getTeams();
-            setTeams(data);
-        };
-        fetchTeams();
-    }, []);
+interface TeamProviderProps {
+  children: ReactNode;
+}
 
-    return (
-        <TeamContext.Provider value={{ teams }}>
-            {children}
-        </TeamContext.Provider>
-    );
+export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
+  const [teams, setTeams] = useState<Team[]>([]);
+
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const data = await getTeams();
+        setTeams(data);
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+      }
+    };
+    fetchTeams();
+  }, []);
+
+  return (
+    <TeamContext.Provider value={{ teams }}>
+      {children}
+    </TeamContext.Provider>
+  );
 };

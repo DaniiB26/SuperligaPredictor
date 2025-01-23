@@ -14,6 +14,13 @@ const StandingsPage: React.FC = () => {
 
     useEffect(() => {
         const fetchStandings = async () => {
+            if (!user) {
+                console.warn("User is null. Cannot fetch prediction standings.");
+                setPredictionStandings([]);
+                setLoading(false);
+                return;
+            }
+
             try {
                 const [realData, predictionData] = await Promise.all([
                     getRealStandings(),
@@ -27,10 +34,11 @@ const StandingsPage: React.FC = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchStandings();
     }, [user]);
-    
+
+
 
     if (loading) {
         return <div className="loading-container">Loading standings...</div>;
@@ -39,7 +47,7 @@ const StandingsPage: React.FC = () => {
     return (
         <IonApp>
             <IonContent>
-            <Header />
+                <Header />
                 <div className="standings-container">
                     <div className="standings-section">
                         <h3>Real Match Standings</h3>

@@ -1,15 +1,23 @@
-import React from 'react';
-import { IonItem, IonLabel } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { IonItem, IonLabel } from "@ionic/react";
+import { useHistory } from "react-router-dom";
+import { Team } from "../types";
 
-const TeamItem = ({ team }) => {
-    const history = useHistory();
+interface TeamItemProps {
+  team: Team;
+}
 
-    return (
-        <IonItem button onClick={() => history.push(`/teams/${team.name}`)}>
-            <IonLabel>{team.name}</IonLabel>
-        </IonItem>
-    );
+const TeamItem: React.FC<TeamItemProps> = ({ team }) => {
+  const history = useHistory();
+
+  return (
+    <IonItem button onClick={() => history.push(`/teams/${team.id}`)}>
+      <IonLabel>
+        <img src={team.logo} alt={`${team.name} logo`} style={{ marginRight: "8px", width: "24px", height: "24px" }} />
+        {team.name}
+      </IonLabel>
+    </IonItem>
+  );
 };
 
 export default TeamItem;

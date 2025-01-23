@@ -2,8 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
 
-const TeamDetails = () => {
-    const { name } = useParams();
+interface TeamParams {
+    name: string;
+}
+
+const TeamDetails: React.FC = () => {
+    const { name } = useParams<TeamParams>();
 
     return (
         <IonPage>

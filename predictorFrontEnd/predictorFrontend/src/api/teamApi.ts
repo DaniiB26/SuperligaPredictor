@@ -21,18 +21,18 @@ const handleApiRequest = async <T>(
   }
 };
 
-// Fetch all matches from the server
-export const getAllMatches = async (): Promise<any[]> => {
+// Fetch all teams from the server
+export const getTeams = async (): Promise<any[]> => {
   return handleApiRequest(
-    () => axiosInstance.get("/matches"),
-    "Error fetching matches"
+    () => axiosInstance.get("/teams"),
+    "Error fetching teams"
   );
 };
 
-// Fetch a match by its ID
-export const getMatchById = async (id: string): Promise<any> => {
+// Fetch a team by its name
+export const getTeamByName = async (name: string): Promise<any> => {
   return handleApiRequest(
-    () => axiosInstance.get(`/matches/${id}`),
-    "Error fetching match"
+    () => axiosInstance.get(`/teams/${name}`),
+    "Error fetching team"
   );
 };

@@ -1,17 +1,22 @@
-import axios from "axios";
+import axios, {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 
-const axiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: "http://localhost:8080/api",
   timeout: 5000,
   headers: { "Content-Type": "application/json" },
 });
 
 // Function to refresh the token
-const refreshTokenFunction = async (refreshToken) => {
+const refreshTokenFunction = async (refreshToken: string): Promise<string> => {
   try {
-    const response = await axiosInstance.post("/refresh-token", {
-      refreshToken,
-    });
+    const response: AxiosResponse<{ token: string }> = await axiosInstance.post(
+      "/refresh-token",
+      { refreshToken }
+    );
     return response.data.token;
   } catch (error) {
     console.error("Failed to refresh token", error);
@@ -21,10 +26,16 @@ const refreshTokenFunction = async (refreshToken) => {
 
 // Add a request interceptor to include the token in the Authorization header
 axiosInstance.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      if (config.headers) {
+        if (typeof config.headers.set === "function") {
+          config.headers.set("Authorization", `Bearer ${token}`);
+        } else {
+          (config.headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
+        }
+      }
     }
     return config;
   },
@@ -33,29 +44,32 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle expired tokens
+// Add a response interceptor to handle expired tokens
 axiosInstance.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse): AxiosResponse => {
     return response;
   },
   async (error) => {
     if (
       error.response &&
       error.response.status === 401 &&
-      !error.config._retry
+      !(error.config as any)._retry
     ) {
       const originalRequest = error.config;
-      originalRequest._retry = true;
+      (originalRequest as any)._retry = true;
 
       const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
         try {
           const newToken = await refreshTokenFunction(refreshToken);
           localStorage.setItem("token", newToken);
+
           axiosInstance.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${newToken}`;
-          originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          if (originalRequest.headers) {
+            (originalRequest.headers as Record<string, string>)["Authorization"] = `Bearer ${newToken}`;
+          }
 
           // Retry the original request with the new token
           return axiosInstance(originalRequest);

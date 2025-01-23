@@ -17,10 +17,10 @@ const LeaderboardsPage: React.FC = () => {
     const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
     const [showShareModal, setShowShareModal] = useState<boolean>(false);
     const [selectedLeaderboard, setSelectedLeaderboard] = useState<Leaderboard | null>(null);
-    const [copySuccess, setCopySuccess] = useState('Copy');
-    const textAreaRef = useRef(null);
+    const [copySuccess, setCopySuccess] = useState<string>('Copy');
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-    function copyToClipboard() {
+    const copyToClipboard = () => {
         if (textAreaRef.current) {
             textAreaRef.current.select();
             document.execCommand('copy');
@@ -33,24 +33,29 @@ const LeaderboardsPage: React.FC = () => {
         const fetchLeaderboards = async () => {
             if (user) {
                 try {
-                    const fetchedLeaderboards = await getLeaderboards();
+                    const fetchedLeaderboards: Leaderboard[] = await getLeaderboards();
                     console.log('Fetched Leaderboards:', fetchedLeaderboards);
 
-                    const userLeaderboards = fetchedLeaderboards.filter((leaderboard: Leaderboard) =>
-                        leaderboard.users.some((u: User) => u.username === user) && leaderboard.name !== 'Public Leaderboard'
+                    const userLeaderboards = fetchedLeaderboards.filter((leaderboard) =>
+                        leaderboard.users.some((u) => u.username === user) &&
+                        leaderboard.name !== 'Public Leaderboard'
                     );
 
-                    userLeaderboards.forEach(leaderboard => {
+                    userLeaderboards.forEach((leaderboard) => {
                         leaderboard.users.sort((a, b) => b.simplePoints - a.simplePoints);
                     });
                     setLeaderboards(userLeaderboards);
 
                     const fetchedPublicLeaderboard = await getPublicLeaderboard();
-                    console.log('Fetched Public Leaderboard:', fetchedPublicLeaderboard);
                     if (fetchedPublicLeaderboard) {
-                        fetchedPublicLeaderboard.users.sort((a, b) => b.simplePoints - a.simplePoints);
+                        console.log('Fetched Public Leaderboard:', fetchedPublicLeaderboard);
+                        fetchedPublicLeaderboard.users.sort((a: User, b: User) => b.simplePoints - a.simplePoints);
+                        setPublicLeaderboard(fetchedPublicLeaderboard);
+                    } else {
+                        console.warn("No public leaderboard found.");
+                        setPublicLeaderboard(null);
                     }
-                    setPublicLeaderboard(fetchedPublicLeaderboard);
+
                 } catch (error) {
                     console.error('Error fetching leaderboards:', error);
                 } finally {
@@ -67,14 +72,15 @@ const LeaderboardsPage: React.FC = () => {
             try {
                 await joinLeaderboardByCode(inviteCode);
 
-                const updatedLeaderboards = await getLeaderboards();
+                const updatedLeaderboards: Leaderboard[] = await getLeaderboards();
                 console.log('Updated Leaderboards after joining:', updatedLeaderboards);
 
-                const userLeaderboards = updatedLeaderboards.filter((leaderboard: Leaderboard) =>
-                    leaderboard.users.some((u: User) => u.username === user) && leaderboard.name !== 'Public Leaderboard'
+                const userLeaderboards = updatedLeaderboards.filter((leaderboard) =>
+                    leaderboard.users.some((u) => u.username === user) &&
+                    leaderboard.name !== 'Public Leaderboard'
                 );
 
-                userLeaderboards.forEach(leaderboard => {
+                userLeaderboards.forEach((leaderboard) => {
                     leaderboard.users.sort((a, b) => b.simplePoints - a.simplePoints);
                 });
                 setLeaderboards(userLeaderboards);
@@ -88,17 +94,18 @@ const LeaderboardsPage: React.FC = () => {
 
     const handleCreateLeaderboard = async (name: string, owner: string, privacy: string) => {
         try {
-            const newLeaderboard = await createLeaderboard(name, owner, privacy);
+            const newLeaderboard: Leaderboard = await createLeaderboard(name, owner, privacy);
             console.log('Leaderboard created:', newLeaderboard);
             setShowCreateModal(false);
 
-            const updatedLeaderboards = await getLeaderboards();
+            const updatedLeaderboards: Leaderboard[] = await getLeaderboards();
 
-            const userLeaderboards = updatedLeaderboards.filter((leaderboard: Leaderboard) =>
-                leaderboard.users.some((u: User) => u.username === user) && leaderboard.name !== 'Public Leaderboard'
+            const userLeaderboards = updatedLeaderboards.filter((leaderboard) =>
+                leaderboard.users.some((u) => u.username === user) &&
+                leaderboard.name !== 'Public Leaderboard'
             );
 
-            userLeaderboards.forEach(leaderboard => {
+            userLeaderboards.forEach((leaderboard) => {
                 leaderboard.users.sort((a, b) => b.simplePoints - a.simplePoints);
             });
             setLeaderboards(userLeaderboards);

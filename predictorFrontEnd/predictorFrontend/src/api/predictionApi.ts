@@ -1,21 +1,28 @@
-import axiosInstance from "./axiosConfig.js";
+import axiosInstance from "./axiosConfig";
+import { AxiosResponse, isAxiosError } from "axios";
 
 // Utility function to handle API requests with error logging
-const handleApiRequest = async (request, errorMessage) => {
+const handleApiRequest = async <T>(
+  request: () => Promise<AxiosResponse<T>>,
+  errorMessage: string
+): Promise<T> => {
   try {
     const response = await request();
     return response.data;
-  } catch (error) {
-    console.error(
-      `${errorMessage}:`,
-      error.response ? error.response.data : error.message
-    );
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      console.error(`${errorMessage}:`, error.response?.data || error.message);
+    } else if (error instanceof Error) {
+      console.error(`${errorMessage}:`, error.message);
+    } else {
+      console.error(`${errorMessage}: Unknown error`);
+    }
     throw error;
   }
 };
 
 // Fetch all predictions for the current user
-export const getPredictionsForUser = async (username) => {
+export const getPredictionsForUser = async (username: string): Promise<any[]> => {
   return handleApiRequest(
     () => axiosInstance.get(`/predictions/user/${username}`),
     "Error fetching predictions"
@@ -23,7 +30,12 @@ export const getPredictionsForUser = async (username) => {
 };
 
 // Save a prediction for a match
-export const savePrediction = async (matchId, user, homeScore, awayScore) => {
+export const savePrediction = async (
+  matchId: string,
+  user: string,
+  homeScore: number,
+  awayScore: number
+): Promise<any> => {
   return handleApiRequest(
     () =>
       axiosInstance.post("/predictions", {
@@ -37,7 +49,7 @@ export const savePrediction = async (matchId, user, homeScore, awayScore) => {
 };
 
 // Recalculate points for the current user
-export const recalculatePoints = async (username) => {
+export const recalculatePoints = async (username: string): Promise<any> => {
   return handleApiRequest(
     () => axiosInstance.post(`/predictions/user/${username}/recalculate`),
     "Error recalculating points"
