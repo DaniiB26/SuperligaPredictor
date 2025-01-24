@@ -31,35 +31,46 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
+        // Verificăm dacă există header-ul Authorization
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
+            jwt = authorizationHeader.substring(7); // Extragem token-ul din header
 
             try {
+                // Extragem username din token
                 username = jwtUtil.extractUsername(jwt);
             } catch (ExpiredJwtException e) {
+                // Dacă token-ul a expirat, setăm statusul HTTP și trimitem un mesaj corespunzător
                 logger.warn("JWT expired for request: {}");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.getWriter().write("Token expired");
                 return;
             } catch (Exception e) {
-                logger.error("Invalid token for request: {}");
+                // Dacă există o problemă cu token-ul, logăm eroarea și returnăm un mesaj de eroare
+                logger.error("Invalid token for request: {}", e);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("Invalid token");
                 return;
             }
         }
 
+        // Dacă am obținut un username valid și nu există deja o autentificare în SecurityContext
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userService.loadUserByUsername(username);
-
-            if (jwtUtil.validateToken(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            try {
+                UserDetails userDetails = this.userService.loadUserByUsername(username);
+                // Verificăm validitatea token-ului cu detaliile utilizatorului
+                if (jwtUtil.validateToken(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+            } catch (Exception e) {
+                // Logăm orice eroare apărută în timpul procesării utilizatorului
+                logger.error("Error processing authentication for username: {}", e);
             }
         }
 
+        // Continuăm lanțul de filtre
         chain.doFilter(request, response);
     }
 }

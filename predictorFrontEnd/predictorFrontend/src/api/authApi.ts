@@ -42,15 +42,29 @@ export const signup = async (
 };
 
 // Login function
-export const login = async (
-  username: string,
-  password: string
-): Promise<any> => {
-  return handleApiRequest(
-    () => axiosInstance.post("/login", { username, password }),
-    "Error during login"
-  );
+export const login = async (username: string, password: string): Promise<any> => {
+  try {
+    // Trimite cererea de login
+    const response = await handleApiRequest(
+      () => axiosInstance.post("/login", { username, password }),
+      "Error during login"
+    );
+
+    // Verifică dacă serverul a returnat un token
+    const { token } = response; // Asigură-te că răspunsul conține token-ul
+
+    // Salvează token-ul în localStorage
+    if (token) {
+      localStorage.setItem("token", token); // Poți salva token-ul în localStorage
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw new Error("Login failed: Invalid credentials or token.");
+  }
 };
+
 
 // Get protected data function
 export const getProtectedData = async (): Promise<any> => {
