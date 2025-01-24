@@ -5,10 +5,14 @@ import axios, {
 } from "axios";
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://superliga-predictor-backend-0646e7a3f4f2.herokuapp.com/api",
   timeout: 5000,
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${localStorage.getItem('token')}`
+  },
 });
+
 
 // Function to refresh the token
 const refreshTokenFunction = async (refreshToken: string): Promise<string> => {
