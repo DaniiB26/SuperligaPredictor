@@ -34,7 +34,7 @@ const LeaderboardsPage: React.FC = () => {
             if (user) {
                 try {
                     const fetchedLeaderboards: Leaderboard[] = await getLeaderboards();
-                    console.log('Fetched Leaderboards:', fetchedLeaderboards);
+                    //console.log('Fetched Leaderboards:', fetchedLeaderboards);
 
                     const userLeaderboards = fetchedLeaderboards.filter((leaderboard) =>
                         leaderboard.users.some((u) => u.username === user) &&
@@ -48,7 +48,7 @@ const LeaderboardsPage: React.FC = () => {
 
                     const fetchedPublicLeaderboard = await getPublicLeaderboard();
                     if (fetchedPublicLeaderboard) {
-                        console.log('Fetched Public Leaderboard:', fetchedPublicLeaderboard);
+                        //console.log('Fetched Public Leaderboard:', fetchedPublicLeaderboard);
                         fetchedPublicLeaderboard.users.sort((a: User, b: User) => b.simplePoints - a.simplePoints);
                         setPublicLeaderboard(fetchedPublicLeaderboard);
                     } else {
@@ -73,7 +73,7 @@ const LeaderboardsPage: React.FC = () => {
                 await joinLeaderboardByCode(inviteCode);
 
                 const updatedLeaderboards: Leaderboard[] = await getLeaderboards();
-                console.log('Updated Leaderboards after joining:', updatedLeaderboards);
+                //console.log('Updated Leaderboards after joining:', updatedLeaderboards);
 
                 const userLeaderboards = updatedLeaderboards.filter((leaderboard) =>
                     leaderboard.users.some((u) => u.username === user) &&
@@ -95,7 +95,7 @@ const LeaderboardsPage: React.FC = () => {
     const handleCreateLeaderboard = async (name: string, owner: string, privacy: string) => {
         try {
             const newLeaderboard: Leaderboard = await createLeaderboard(name, owner, privacy);
-            console.log('Leaderboard created:', newLeaderboard);
+            //console.log('Leaderboard created:', newLeaderboard);
             setShowCreateModal(false);
 
             const updatedLeaderboards: Leaderboard[] = await getLeaderboards();

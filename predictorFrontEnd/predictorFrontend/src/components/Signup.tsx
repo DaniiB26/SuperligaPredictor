@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
         setLoading(true);
         try {
             const response = await signup(username, email, password);
-            console.log("Signup successful!", { username, email, password });
+            // //console.log("Signup successful!", { username, email, password });
 
             if (response.token) {
                 login(username, response.token);
