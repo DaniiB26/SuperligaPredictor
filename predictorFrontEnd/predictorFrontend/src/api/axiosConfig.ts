@@ -4,15 +4,14 @@ import axios, {
   AxiosResponse,
 } from "axios";
 
-const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "https://superliga-predictor-backend-0646e7a3f4f2.herokuapp.com/api",
+const axiosInstance = axios.create({
+  baseURL: "https://superliga-predictor-backend-0646e7a3f4f2.herokuapp.com/api",  // Asigură-te că url-ul e corect
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
-    "Authorization": `Bearer ${localStorage.getItem('token')}`
+    "Access-Control-Allow-Origin": "*",  // Permite cererile CORS
   },
 });
-
 
 // Function to refresh the token
 const refreshTokenFunction = async (refreshToken: string): Promise<string> => {
