@@ -2,7 +2,6 @@ import axios, { AxiosResponse, isAxiosError } from "axios";
 import axiosInstance from "./axiosConfig";
 import { Leaderboard } from "../types";
 
-// Tipuri pentru cereri și gestionarea erorilor
 type ApiRequest<T> = () => Promise<AxiosResponse<T>>;
 type ErrorHandler = string;
 
@@ -13,7 +12,7 @@ const handleApiRequest = async <T>(
 ): Promise<T> => {
   try {
     const response = await request();
-    return response.data; // TypeScript recunoaște că `response` are o proprietate `data`
+    return response.data;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       console.error(`${errorMessage}:`, error.response?.data || error.message);

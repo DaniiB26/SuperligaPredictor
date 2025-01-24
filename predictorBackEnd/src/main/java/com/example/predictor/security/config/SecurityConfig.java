@@ -31,9 +31,9 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("https://superliga-predictor.vercel.app");  // Permite frontend-ul de pe Vercel
-        config.addAllowedMethod("*");  // Permite toate metodele HTTP (GET, POST, etc.)
-        config.addAllowedHeader("*");  // Permite toate antetele
+        config.addAllowedOrigin("https://superliga-predictor.vercel.app");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
@@ -42,14 +42,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)  // Adăugăm CorsFilter
-                .csrf(csrf -> csrf.disable())  // Dezactivăm CSRF (pentru API-uri)
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
+                .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/api/signup", "/api/login", "/").permitAll()  // Permitem acces public la aceste endpoint-uri
-                        .anyRequest().authenticated()  // Toate celelalte endpoint-uri necesită autentificare
+                        .requestMatchers("/api/signup", "/api/login", "/").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Fără sesiuni
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);  // Adăugăm filtrul JWT
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

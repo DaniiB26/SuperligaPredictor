@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",  // Permite cererile CORS
+    "Access-Control-Allow-Origin": "*",
   },
 });
 

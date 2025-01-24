@@ -44,18 +44,15 @@ export const signup = async (
 // Login function
 export const login = async (username: string, password: string): Promise<any> => {
   try {
-    // Trimite cererea de login
     const response = await handleApiRequest(
       () => axiosInstance.post("/login", { username, password }),
       "Error during login"
     );
 
-    // Verifică dacă serverul a returnat un token
-    const { token } = response; // Asigură-te că răspunsul conține token-ul
+    const { token } = response;
 
-    // Salvează token-ul în localStorage
     if (token) {
-      localStorage.setItem("token", token); // Poți salva token-ul în localStorage
+      localStorage.setItem("token", token);
     }
 
     return response;
