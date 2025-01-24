@@ -15,11 +15,6 @@ public class PredictorApplication {
             System.setProperty("SPRING_APPLICATION_NAME", dotenv.get("SPRING_APPLICATION_NAME"));
             System.setProperty("MONGODB_URI", dotenv.get("MONGODB_URI"));
             System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
-        } else {
-            
-            System.setProperty("SPRING_APPLICATION_NAME", System.getenv("SPRING_APPLICATION_NAME"));
-            System.setProperty("MONGODB_URI", System.getenv("MONGODB_URI"));
-            System.setProperty("JWT_SECRET", System.getenv("JWT_SECRET"));
         }
 
         
