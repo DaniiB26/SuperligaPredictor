@@ -15,7 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -27,25 +28,28 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("https://superliga-predictor.vercel.app");  // Permite frontend-ul de pe Vercel
+        config.addAllowedMethod("*");  // Permite toate metodele HTTP (GET, POST, etc.)
+        config.addAllowedHeader("*");  // Permite toate antetele
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(request -> {
-                    CorsConfiguration config = new CorsConfiguration();
-                    config.addAllowedOrigin("https://superliga-predictor.vercel.app"); // Permite cereri din domeniul
-                                                                                       // frontend-ului de pe Vercel
-                    config.addAllowedMethod("*"); // Permite toate metodele (GET, POST, etc.)
-                    config.addAllowedHeader("*"); // Permite toate antetele
-                    return config;
-                }))
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/signup", "/api/login", "/").permitAll() // Permite accesul public la
-                                                                                       // aceste endpoint-uri
-                        .anyRequest().authenticated() // Toate celelalte endpoint-uri necesită autentificare
+                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)  // Adăugăm CorsFilter
+                .csrf(csrf -> csrf.disable())  // Dezactivăm CSRF (pentru API-uri)
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/api/signup", "/api/login", "/").permitAll()  // Permitem acces public la aceste endpoint-uri
+                        .anyRequest().authenticated()  // Toate celelalte endpoint-uri necesită autentificare
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Fără
-                                                                                                              // sesiuni
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Adaugă filtrul JWT
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Fără sesiuni
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);  // Adăugăm filtrul JWT
 
         return http.build();
     }
@@ -59,8 +63,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
