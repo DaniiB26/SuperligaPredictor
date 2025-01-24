@@ -64,7 +64,6 @@ export const getPublicLeaderboard = async (): Promise<Leaderboard | null> => {
       const response = await axiosInstance.get('/leaderboards/public');
       const data = response.data;
 
-      // Verifică dacă datele sunt valide
       if (data && data.id && data.name && Array.isArray(data.users)) {
           return data as Leaderboard;
       } else {
