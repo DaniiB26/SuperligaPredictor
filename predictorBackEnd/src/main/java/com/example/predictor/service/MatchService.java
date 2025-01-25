@@ -99,7 +99,8 @@ public class MatchService {
             String scriptPath = "ExtractMatches/main.py";
             String stageNumber = match.getEtapa();
 
-            ProcessBuilder processBuilder = new ProcessBuilder(pythonPath, scriptPath, stageNumber);
+            // ProcessBuilder processBuilder = new ProcessBuilder(pythonPath, scriptPath, stageNumber);
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", scriptPath, stageNumber);
             processBuilder.redirectErrorStream(true);
 
             Process process = processBuilder.start();
