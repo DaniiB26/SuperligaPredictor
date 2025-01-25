@@ -25,10 +25,6 @@ public class PredictorApplication {
             port = "8080";
         }
 
-        System.out.println("SPRING_APPLICATION_NAME: " + System.getProperty("SPRING_APPLICATION_NAME"));
-        System.out.println("MONGODB_URI: " + System.getProperty("MONGODB_URI"));
-        System.out.println("JWT_SECRET: " + System.getProperty("JWT_SECRET"));
-
         SpringApplication.run(PredictorApplication.class, new String[]{"--server.port=" + port});
     }
 }
